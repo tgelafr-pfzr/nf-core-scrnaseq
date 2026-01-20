@@ -294,6 +294,30 @@ If you are using cellranger-multi you have to add the column _feature_type_ to i
   It relates each "feature" to the corresponding barcode sequence. The structure of this file is described in
   the [cellranger documentation](https://www.10xgenomics.com/support/software/cell-ranger/latest/analysis/running-pipelines/cr-feature-bc-analysis#feature-ref). E.g. [testing fb reference](../assets/fb_reference.csv)
 
+#### The cellranger multi barcode samplesheet (required for multiplexing)
+
+If your data is multiplexed, you must provide a CSV mapping your pools to their samples using the
+`--cellranger_multi_barcodes` parameter. This CSV has the following fields:
+
+* `sample` (required): The ID of your physical sample (pool). Must match values in the `sample` field of your input
+   samplesheet.
+* `multiplexed_sample_id` (required): The ID of your multiplexed sample. These values must be unique and cannot contain
+  spaces.
+* `probe_barcode_ids` (optional, required for FFPE samples): The probe barcode ID(s) (e.g. BC001). Multiple probe
+  barcode IDs per sample may be pipe-separated (e.g. BC001|BC002)
+* `cmo_ids` (optional, required for CMO samples): CMO IDs, must be composed only of alphanumeric, underscore, and hyphen
+  characters. Multiple CMO IDs per sample may be pip-separated. Details:
+  https://www.10xgenomics.com/support/software/cell-ranger/latest/analysis/running-pipelines/cr-3p-multi#cmo-ref
+* `ocm_ids` (optional, required for OCM samples): OCM IDs, must be one of OB1, OB2, OB3, or OB4. Multiple OCM IDs per
+  sample may be pipe-separated.
+* `description` (required): Description of the sample.
+
+Exactly one of `probe_barcode_ids`, `cmo_ids`, and `ocm_ids` must be populated per row.
+
+You can review the
+[10x documentation](https://www.10xgenomics.com/support/software/cell-ranger/latest/analysis/inputs/cr-multi-config-csv-opts#samples)
+for more details.
+
 #### Examples
 
 You can find the **complete** testing files used in the testing profiles here:
